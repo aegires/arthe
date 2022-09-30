@@ -8,5 +8,6 @@
     <ClInclude Include="src\util\LogUtils.h" />
     <ClInclude Include="src\util\DrawUtils.h" />
     <ClInclude Include="src\util\Color.h" />
+    <ClInclude Include="src\util\Image.h" />
   </ItemGroup>
 </Project>

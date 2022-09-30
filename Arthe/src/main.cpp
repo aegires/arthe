@@ -5,12 +5,13 @@
 
 class Game : public GameAdapter
 {
-public:
+private:
     int i = 0;
     int inc = 1;
-
+    Image sprite;
+public:
     void load() {
-
+        sprite = Image("sprites/sprite.png", false);
     }
 
     void update(float delta) {
@@ -22,16 +23,18 @@ public:
     }
 
     void draw() {
-        DrawUtils::clear(Color(255, i, 127, 255));
-        DrawUtils::rect(0, 0, 200, 200);
+        DrawUtils::clear(Color(0, i, 127, 255));
+        DrawUtils::rect(100, 100, 200, 200, Color(0, 255-i, 127, 255));
+        DrawUtils::texture(sprite, 400, 400);
     }
 
     void unload() {
-        
+        delete &sprite;
     }
 };
 
 int main()
 {
-    Game().run("Game", 1920 / 1.5, 1080 / 1.5, false);
+    Game game = Game();
+    game.run("Game", 1920 / 1.5, 1080 / 1.5, false);
 }

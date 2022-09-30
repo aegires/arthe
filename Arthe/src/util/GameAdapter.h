@@ -11,16 +11,16 @@ public:
 	virtual void draw() = 0;
 	virtual void unload() = 0;
 	void run(const char* title, int width, int height, bool hideConsole = true) {
-		//if (hideConsole)
-			//ShowWindow(GetConsoleWindow(), SW_HIDE);
+		if (hideConsole)
+			ShowWindow(GetConsoleWindow(), SW_HIDE);
 		if (!glfwInit()) {
-			cout << "Couldn't initializate glfw!";
+			throw("Couldn't initializate glfw!");
 			LogUtils::error();
 		}
 		GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
 
 		if (!window) {
-			cout << "Couldn't create window!";
+			throw("Couldn't create window!");
 			LogUtils::error();
 		}
 		
@@ -30,8 +30,11 @@ public:
 		int lastWidth = 0, winWidth;
 		int lastHeight = 0, winHeight;
 
+		//parameters
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 
 		glfwMakeContextCurrent(window);
@@ -65,6 +68,10 @@ public:
 	
 	void resize(int width, int height) {
 		glViewport(0, 0, width, height);
-		cout << "Resized to " << width << " " << height;
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, width, 0, height, 0, 1);
+		glMatrixMode(GL_MODELVIEW);
+		cout << "Resized to " << width << " " << height << endl;
 	}
 };
